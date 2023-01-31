@@ -1,0 +1,197 @@
+Terminales no usados en la gramática
+
+    ID
+
+
+Gramática
+
+    0 $accept: s END
+
+    1 s: e z
+
+    2 e: e SUMA e
+    3  | e MENOS e
+    4  | e '*' e
+    5  | e '/' e
+    6  | NUMERO
+
+    7 z: ';'
+    8  | ε
+
+
+Terminales con las reglas donde aparecen
+
+    END (0) 0
+    '*' (42) 4
+    '/' (47) 5
+    ';' (59) 7
+    error (256)
+    NUMERO <std::string> (258) 6
+    ID <std::string> (259)
+    SUMA (260) 2
+    MENOS (261) 3
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (10)
+        on left: 0
+    s <std::string> (11)
+        on left: 1
+        on right: 0
+    e <double> (12)
+        on left: 2 3 4 5 6
+        on right: 1 2 3 4 5
+    z (13)
+        on left: 7 8
+        on right: 1
+
+
+Estado 0
+
+    0 $accept: • s END
+
+    NUMERO  desplazar e ir al estado 1
+
+    s  ir al estado 2
+    e  ir al estado 3
+
+
+Estado 1
+
+    6 e: NUMERO •
+
+    $default  reduce usando la regla 6 (e)
+
+
+Estado 2
+
+    0 $accept: s • END
+
+    END  desplazar e ir al estado 4
+
+
+Estado 3
+
+    1 s: e • z
+    2 e: e • SUMA e
+    3  | e • MENOS e
+    4  | e • '*' e
+    5  | e • '/' e
+
+    SUMA   desplazar e ir al estado 5
+    MENOS  desplazar e ir al estado 6
+    ';'    desplazar e ir al estado 7
+    '*'    desplazar e ir al estado 8
+    '/'    desplazar e ir al estado 9
+
+    $default  reduce usando la regla 8 (z)
+
+    z  ir al estado 10
+
+
+Estado 4
+
+    0 $accept: s END •
+
+    $default  aceptar
+
+
+Estado 5
+
+    2 e: e SUMA • e
+
+    NUMERO  desplazar e ir al estado 1
+
+    e  ir al estado 11
+
+
+Estado 6
+
+    3 e: e MENOS • e
+
+    NUMERO  desplazar e ir al estado 1
+
+    e  ir al estado 12
+
+
+Estado 7
+
+    7 z: ';' •
+
+    $default  reduce usando la regla 7 (z)
+
+
+Estado 8
+
+    4 e: e '*' • e
+
+    NUMERO  desplazar e ir al estado 1
+
+    e  ir al estado 13
+
+
+Estado 9
+
+    5 e: e '/' • e
+
+    NUMERO  desplazar e ir al estado 1
+
+    e  ir al estado 14
+
+
+Estado 10
+
+    1 s: e z •
+
+    $default  reduce usando la regla 1 (s)
+
+
+Estado 11
+
+    2 e: e • SUMA e
+    2  | e SUMA e •
+    3  | e • MENOS e
+    4  | e • '*' e
+    5  | e • '/' e
+
+    '*'  desplazar e ir al estado 8
+    '/'  desplazar e ir al estado 9
+
+    $default  reduce usando la regla 2 (e)
+
+
+Estado 12
+
+    2 e: e • SUMA e
+    3  | e • MENOS e
+    3  | e MENOS e •
+    4  | e • '*' e
+    5  | e • '/' e
+
+    '*'  desplazar e ir al estado 8
+    '/'  desplazar e ir al estado 9
+
+    $default  reduce usando la regla 3 (e)
+
+
+Estado 13
+
+    2 e: e • SUMA e
+    3  | e • MENOS e
+    4  | e • '*' e
+    4  | e '*' e •
+    5  | e • '/' e
+
+    $default  reduce usando la regla 4 (e)
+
+
+Estado 14
+
+    2 e: e • SUMA e
+    3  | e • MENOS e
+    4  | e • '*' e
+    5  | e • '/' e
+    5  | e '/' e •
+
+    $default  reduce usando la regla 5 (e)
