@@ -1,0 +1,11 @@
+Dim str as String;
+Dim EEtr as String;
+
+str = "ho";
+
+{ Dim i as Integer = 1 + "e";
+i = 20;
+
+Imprimir("valor", "valor");
+
+}
