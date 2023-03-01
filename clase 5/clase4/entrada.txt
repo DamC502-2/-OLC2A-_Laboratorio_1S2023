@@ -1,0 +1,24 @@
+Dim str as String;
+Dim EEtr as String;
+
+str = "ho";
+
+{
+Dim i as Integer = 1 + 3;
+Imprimir(i);
+i = 20
+
+Imprimir("valor", "valor",i);
+    {
+        Dim i as Integer = 21;
+        Imprimir(i);
+        {
+            Dim ii as Integer = 22;
+            Imprimir("i: ",i, "ii: ",ii);
+        }
+
+    }
+str = 1 + "a";
+}
+
+
