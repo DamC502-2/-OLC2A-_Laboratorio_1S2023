@@ -1,0 +1,795 @@
+Terminales no usados en la gramática
+
+    STRING
+    '>'
+    ';'
+    '='
+    NEG
+
+
+Gramática
+
+    0 $accept: s END
+
+    1 s: cond
+    2  | lSentencias
+
+    3 lSentencias: lSentencias sentencia
+    4            | sentencia
+
+    5 sentencia: if
+    6          | while
+    7          | BREAK
+    8          | CONTINUE
+
+    9 if: IF '(' cond ')' markIF '{' lSentencias '}' markIF2 else
+
+   10 markIF: ε
+
+   11 markIF2: ε
+
+   12 else: ELSE '{' lSentencias '}' else
+   13     | ELSE if
+   14     | ε
+
+   15 while: WHILE markWhile1 '(' cond ')' markWhile2 '{' lSentencias '}'
+
+   16 markWhile1: ε
+
+   17 markWhile2: ε
+
+   18 cond: cond OR markOR cond
+   19     | cond AND markAND cond
+   20     | operel
+
+   21 markOR: ε
+
+   22 markAND: ε
+
+   23 operel: expr EQ expr
+   24       | expr '<' expr
+
+   25 expr: expr SUMA expr
+   26     | expr MENOS expr
+   27     | expr '*' expr
+   28     | expr '/' expr
+   29     | NUMERO
+   30     | ID
+   31     | '(' expr ')'
+
+
+Terminales con las reglas donde aparecen
+
+    END (0) 0
+    '(' (40) 9 15 31
+    ')' (41) 9 15 31
+    '*' (42) 27
+    '/' (47) 28
+    ';' (59)
+    '<' (60) 24
+    '=' (61)
+    '>' (62)
+    '{' (123) 9 12 15
+    '}' (125) 9 12 15
+    error (256)
+    NUMERO <std::string> (258) 29
+    ID <std::string> (259) 30
+    STRING <std::string> (260)
+    SUMA (261) 25
+    MENOS (262) 26
+    OR (263) 18
+    AND (264) 19
+    EQ (265) 23
+    NEG (266)
+    IF (267) 9
+    ELSE (268) 12 13
+    WHILE (269) 15
+    BREAK (270) 7
+    CONTINUE (271) 8
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (27)
+        on left: 0
+    s <atributos*> (28)
+        on left: 1 2
+        on right: 0
+    lSentencias (29)
+        on left: 3 4
+        on right: 2 3 9 12 15
+    sentencia (30)
+        on left: 5 6 7 8
+        on right: 3 4
+    if (31)
+        on left: 9
+        on right: 5 13
+    markIF (32)
+        on left: 10
+        on right: 9
+    markIF2 <atributos*> (33)
+        on left: 11
+        on right: 9
+    else (34)
+        on left: 12 13 14
+        on right: 9 12
+    while (35)
+        on left: 15
+        on right: 6
+    markWhile1 <atributos*> (36)
+        on left: 16
+        on right: 15
+    markWhile2 (37)
+        on left: 17
+        on right: 15
+    cond <atributos*> (38)
+        on left: 18 19 20
+        on right: 1 9 15 18 19
+    markOR (39)
+        on left: 21
+        on right: 18
+    markAND (40)
+        on left: 22
+        on right: 19
+    operel <atributos*> (41)
+        on left: 23 24
+        on right: 20
+    expr <atributos*> (42)
+        on left: 25 26 27 28 29 30 31
+        on right: 23 24 25 26 27 28 31
+
+
+Estado 0
+
+    0 $accept: • s END
+
+    NUMERO    desplazar e ir al estado 1
+    ID        desplazar e ir al estado 2
+    '('       desplazar e ir al estado 3
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+
+    s            ir al estado 8
+    lSentencias  ir al estado 9
+    sentencia    ir al estado 10
+    if           ir al estado 11
+    while        ir al estado 12
+    cond         ir al estado 13
+    operel       ir al estado 14
+    expr         ir al estado 15
+
+
+Estado 1
+
+   29 expr: NUMERO •
+
+    $default  reduce usando la regla 29 (expr)
+
+
+Estado 2
+
+   30 expr: ID •
+
+    $default  reduce usando la regla 30 (expr)
+
+
+Estado 3
+
+   31 expr: '(' • expr ')'
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 16
+
+
+Estado 4
+
+    9 if: IF • '(' cond ')' markIF '{' lSentencias '}' markIF2 else
+
+    '('  desplazar e ir al estado 17
+
+
+Estado 5
+
+   15 while: WHILE • markWhile1 '(' cond ')' markWhile2 '{' lSentencias '}'
+
+    $default  reduce usando la regla 16 (markWhile1)
+
+    markWhile1  ir al estado 18
+
+
+Estado 6
+
+    7 sentencia: BREAK •
+
+    $default  reduce usando la regla 7 (sentencia)
+
+
+Estado 7
+
+    8 sentencia: CONTINUE •
+
+    $default  reduce usando la regla 8 (sentencia)
+
+
+Estado 8
+
+    0 $accept: s • END
+
+    END  desplazar e ir al estado 19
+
+
+Estado 9
+
+    2 s: lSentencias •
+    3 lSentencias: lSentencias • sentencia
+
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+
+    $default  reduce usando la regla 2 (s)
+
+    sentencia  ir al estado 20
+    if         ir al estado 11
+    while      ir al estado 12
+
+
+Estado 10
+
+    4 lSentencias: sentencia •
+
+    $default  reduce usando la regla 4 (lSentencias)
+
+
+Estado 11
+
+    5 sentencia: if •
+
+    $default  reduce usando la regla 5 (sentencia)
+
+
+Estado 12
+
+    6 sentencia: while •
+
+    $default  reduce usando la regla 6 (sentencia)
+
+
+Estado 13
+
+    1 s: cond •
+   18 cond: cond • OR markOR cond
+   19     | cond • AND markAND cond
+
+    OR   desplazar e ir al estado 21
+    AND  desplazar e ir al estado 22
+
+    $default  reduce usando la regla 1 (s)
+
+
+Estado 14
+
+   20 cond: operel •
+
+    $default  reduce usando la regla 20 (cond)
+
+
+Estado 15
+
+   23 operel: expr • EQ expr
+   24       | expr • '<' expr
+   25 expr: expr • SUMA expr
+   26     | expr • MENOS expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 23
+    MENOS  desplazar e ir al estado 24
+    EQ     desplazar e ir al estado 25
+    '<'    desplazar e ir al estado 26
+    '*'    desplazar e ir al estado 27
+    '/'    desplazar e ir al estado 28
+
+
+Estado 16
+
+   25 expr: expr • SUMA expr
+   26     | expr • MENOS expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   31     | '(' expr • ')'
+
+    SUMA   desplazar e ir al estado 23
+    MENOS  desplazar e ir al estado 24
+    '*'    desplazar e ir al estado 27
+    '/'    desplazar e ir al estado 28
+    ')'    desplazar e ir al estado 29
+
+
+Estado 17
+
+    9 if: IF '(' • cond ')' markIF '{' lSentencias '}' markIF2 else
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 30
+    operel  ir al estado 14
+    expr    ir al estado 15
+
+
+Estado 18
+
+   15 while: WHILE markWhile1 • '(' cond ')' markWhile2 '{' lSentencias '}'
+
+    '('  desplazar e ir al estado 31
+
+
+Estado 19
+
+    0 $accept: s END •
+
+    $default  aceptar
+
+
+Estado 20
+
+    3 lSentencias: lSentencias sentencia •
+
+    $default  reduce usando la regla 3 (lSentencias)
+
+
+Estado 21
+
+   18 cond: cond OR • markOR cond
+
+    $default  reduce usando la regla 21 (markOR)
+
+    markOR  ir al estado 32
+
+
+Estado 22
+
+   19 cond: cond AND • markAND cond
+
+    $default  reduce usando la regla 22 (markAND)
+
+    markAND  ir al estado 33
+
+
+Estado 23
+
+   25 expr: expr SUMA • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 34
+
+
+Estado 24
+
+   26 expr: expr MENOS • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 35
+
+
+Estado 25
+
+   23 operel: expr EQ • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 36
+
+
+Estado 26
+
+   24 operel: expr '<' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 37
+
+
+Estado 27
+
+   27 expr: expr '*' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 38
+
+
+Estado 28
+
+   28 expr: expr '/' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 39
+
+
+Estado 29
+
+   31 expr: '(' expr ')' •
+
+    $default  reduce usando la regla 31 (expr)
+
+
+Estado 30
+
+    9 if: IF '(' cond • ')' markIF '{' lSentencias '}' markIF2 else
+   18 cond: cond • OR markOR cond
+   19     | cond • AND markAND cond
+
+    OR   desplazar e ir al estado 21
+    AND  desplazar e ir al estado 22
+    ')'  desplazar e ir al estado 40
+
+
+Estado 31
+
+   15 while: WHILE markWhile1 '(' • cond ')' markWhile2 '{' lSentencias '}'
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 41
+    operel  ir al estado 14
+    expr    ir al estado 15
+
+
+Estado 32
+
+   18 cond: cond OR markOR • cond
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 42
+    operel  ir al estado 14
+    expr    ir al estado 15
+
+
+Estado 33
+
+   19 cond: cond AND markAND • cond
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 43
+    operel  ir al estado 14
+    expr    ir al estado 15
+
+
+Estado 34
+
+   25 expr: expr • SUMA expr
+   25     | expr SUMA expr •
+   26     | expr • MENOS expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+
+    '*'  desplazar e ir al estado 27
+    '/'  desplazar e ir al estado 28
+
+    $default  reduce usando la regla 25 (expr)
+
+
+Estado 35
+
+   25 expr: expr • SUMA expr
+   26     | expr • MENOS expr
+   26     | expr MENOS expr •
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+
+    '*'  desplazar e ir al estado 27
+    '/'  desplazar e ir al estado 28
+
+    $default  reduce usando la regla 26 (expr)
+
+
+Estado 36
+
+   23 operel: expr EQ expr •
+   25 expr: expr • SUMA expr
+   26     | expr • MENOS expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 23
+    MENOS  desplazar e ir al estado 24
+    '*'    desplazar e ir al estado 27
+    '/'    desplazar e ir al estado 28
+
+    $default  reduce usando la regla 23 (operel)
+
+
+Estado 37
+
+   24 operel: expr '<' expr •
+   25 expr: expr • SUMA expr
+   26     | expr • MENOS expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 23
+    MENOS  desplazar e ir al estado 24
+    '*'    desplazar e ir al estado 27
+    '/'    desplazar e ir al estado 28
+
+    $default  reduce usando la regla 24 (operel)
+
+
+Estado 38
+
+   25 expr: expr • SUMA expr
+   26     | expr • MENOS expr
+   27     | expr • '*' expr
+   27     | expr '*' expr •
+   28     | expr • '/' expr
+
+    $default  reduce usando la regla 27 (expr)
+
+
+Estado 39
+
+   25 expr: expr • SUMA expr
+   26     | expr • MENOS expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   28     | expr '/' expr •
+
+    $default  reduce usando la regla 28 (expr)
+
+
+Estado 40
+
+    9 if: IF '(' cond ')' • markIF '{' lSentencias '}' markIF2 else
+
+    $default  reduce usando la regla 10 (markIF)
+
+    markIF  ir al estado 44
+
+
+Estado 41
+
+   15 while: WHILE markWhile1 '(' cond • ')' markWhile2 '{' lSentencias '}'
+   18 cond: cond • OR markOR cond
+   19     | cond • AND markAND cond
+
+    OR   desplazar e ir al estado 21
+    AND  desplazar e ir al estado 22
+    ')'  desplazar e ir al estado 45
+
+
+Estado 42
+
+   18 cond: cond • OR markOR cond
+   18     | cond OR markOR cond •
+   19     | cond • AND markAND cond
+
+    AND  desplazar e ir al estado 22
+
+    $default  reduce usando la regla 18 (cond)
+
+
+Estado 43
+
+   18 cond: cond • OR markOR cond
+   19     | cond • AND markAND cond
+   19     | cond AND markAND cond •
+
+    $default  reduce usando la regla 19 (cond)
+
+
+Estado 44
+
+    9 if: IF '(' cond ')' markIF • '{' lSentencias '}' markIF2 else
+
+    '{'  desplazar e ir al estado 46
+
+
+Estado 45
+
+   15 while: WHILE markWhile1 '(' cond ')' • markWhile2 '{' lSentencias '}'
+
+    $default  reduce usando la regla 17 (markWhile2)
+
+    markWhile2  ir al estado 47
+
+
+Estado 46
+
+    9 if: IF '(' cond ')' markIF '{' • lSentencias '}' markIF2 else
+
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+
+    lSentencias  ir al estado 48
+    sentencia    ir al estado 10
+    if           ir al estado 11
+    while        ir al estado 12
+
+
+Estado 47
+
+   15 while: WHILE markWhile1 '(' cond ')' markWhile2 • '{' lSentencias '}'
+
+    '{'  desplazar e ir al estado 49
+
+
+Estado 48
+
+    3 lSentencias: lSentencias • sentencia
+    9 if: IF '(' cond ')' markIF '{' lSentencias • '}' markIF2 else
+
+    '}'       desplazar e ir al estado 50
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+
+    sentencia  ir al estado 20
+    if         ir al estado 11
+    while      ir al estado 12
+
+
+Estado 49
+
+   15 while: WHILE markWhile1 '(' cond ')' markWhile2 '{' • lSentencias '}'
+
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+
+    lSentencias  ir al estado 51
+    sentencia    ir al estado 10
+    if           ir al estado 11
+    while        ir al estado 12
+
+
+Estado 50
+
+    9 if: IF '(' cond ')' markIF '{' lSentencias '}' • markIF2 else
+
+    $default  reduce usando la regla 11 (markIF2)
+
+    markIF2  ir al estado 52
+
+
+Estado 51
+
+    3 lSentencias: lSentencias • sentencia
+   15 while: WHILE markWhile1 '(' cond ')' markWhile2 '{' lSentencias • '}'
+
+    '}'       desplazar e ir al estado 53
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+
+    sentencia  ir al estado 20
+    if         ir al estado 11
+    while      ir al estado 12
+
+
+Estado 52
+
+    9 if: IF '(' cond ')' markIF '{' lSentencias '}' markIF2 • else
+
+    ELSE  desplazar e ir al estado 54
+
+    $default  reduce usando la regla 14 (else)
+
+    else  ir al estado 55
+
+
+Estado 53
+
+   15 while: WHILE markWhile1 '(' cond ')' markWhile2 '{' lSentencias '}' •
+
+    $default  reduce usando la regla 15 (while)
+
+
+Estado 54
+
+   12 else: ELSE • '{' lSentencias '}' else
+   13     | ELSE • if
+
+    '{'  desplazar e ir al estado 56
+    IF   desplazar e ir al estado 4
+
+    if  ir al estado 57
+
+
+Estado 55
+
+    9 if: IF '(' cond ')' markIF '{' lSentencias '}' markIF2 else •
+
+    $default  reduce usando la regla 9 (if)
+
+
+Estado 56
+
+   12 else: ELSE '{' • lSentencias '}' else
+
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+
+    lSentencias  ir al estado 58
+    sentencia    ir al estado 10
+    if           ir al estado 11
+    while        ir al estado 12
+
+
+Estado 57
+
+   13 else: ELSE if •
+
+    $default  reduce usando la regla 13 (else)
+
+
+Estado 58
+
+    3 lSentencias: lSentencias • sentencia
+   12 else: ELSE '{' lSentencias • '}' else
+
+    '}'       desplazar e ir al estado 59
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+
+    sentencia  ir al estado 20
+    if         ir al estado 11
+    while      ir al estado 12
+
+
+Estado 59
+
+   12 else: ELSE '{' lSentencias '}' • else
+
+    ELSE  desplazar e ir al estado 54
+
+    $default  reduce usando la regla 14 (else)
+
+    else  ir al estado 60
+
+
+Estado 60
+
+   12 else: ELSE '{' lSentencias '}' else •
+
+    $default  reduce usando la regla 12 (else)
