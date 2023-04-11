@@ -1,0 +1,1225 @@
+Terminales no usados en la gramática
+
+    STRING
+    '>'
+    ';'
+    NEG
+
+
+Gramática
+
+    0 $accept: s END
+
+    1 s: cond
+    2  | lSentencias
+
+    3 lSentencias: lSentencias sentencia
+    4            | sentencia
+
+    5 sentencia: if
+    6          | while
+    7          | BREAK
+    8          | CONTINUE
+    9          | asignacion
+   10          | declaracion
+
+   11 if: IF '(' cond ')' markIF '{' lSentencias '}' markIF2 else
+
+   12 markIF: ε
+
+   13 markIF2: ε
+
+   14 else: ELSE '{' lSentencias '}' else
+   15     | ELSE if
+   16     | ε
+
+   17 while: WHILE markWhile1 '(' cond ')' markWhile2 '{' lSentencias '}'
+
+   18 markWhile1: ε
+
+   19 markWhile2: ε
+
+   20 cond: cond OR markOR cond
+   21     | cond AND markAND cond
+   22     | operel
+
+   23 markOR: ε
+
+   24 markAND: ε
+
+   25 operel: expr EQ expr
+   26       | expr '<' expr
+
+   27 expr: expr SUMA expr
+   28     | expr MENOS expr
+   29     | expr '*' expr
+   30     | expr '/' expr
+   31     | NUMERO
+   32     | ID
+   33     | '(' expr ')'
+   34     | lRef ']'
+
+   35 declaracion: lDims ']'
+
+   36 lDims: lDims ',' expr DOT2 expr
+   37      | ARRAY ID '[' expr DOT2 expr
+
+   38 lRef: lRef ',' expr
+   39     | ID '[' expr
+
+   40 asignacion: ID '=' expr
+   41           | lRef ']' '=' expr
+
+
+Terminales con las reglas donde aparecen
+
+    END (0) 0
+    '(' (40) 11 17 33
+    ')' (41) 11 17 33
+    '*' (42) 29
+    ',' (44) 36 38
+    '/' (47) 30
+    ';' (59)
+    '<' (60) 26
+    '=' (61) 40 41
+    '>' (62)
+    '[' (91) 37 39
+    ']' (93) 34 35 41
+    '{' (123) 11 14 17
+    '}' (125) 11 14 17
+    error (256)
+    NUMERO <std::string> (258) 31
+    ID <std::string> (259) 32 37 39 40
+    STRING <std::string> (260)
+    SUMA (261) 27
+    MENOS (262) 28
+    OR (263) 20
+    AND (264) 21
+    EQ (265) 25
+    NEG (266)
+    IF (267) 11
+    ELSE (268) 14 15
+    WHILE (269) 17
+    BREAK (270) 7
+    CONTINUE (271) 8
+    ARRAY (272) 37
+    DOT2 (273) 36 37
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (32)
+        on left: 0
+    s <atributos*> (33)
+        on left: 1 2
+        on right: 0
+    lSentencias (34)
+        on left: 3 4
+        on right: 2 3 11 14 17
+    sentencia (35)
+        on left: 5 6 7 8 9 10
+        on right: 3 4
+    if (36)
+        on left: 11
+        on right: 5 15
+    markIF (37)
+        on left: 12
+        on right: 11
+    markIF2 <atributos*> (38)
+        on left: 13
+        on right: 11
+    else (39)
+        on left: 14 15 16
+        on right: 11 14
+    while (40)
+        on left: 17
+        on right: 6
+    markWhile1 <atributos*> (41)
+        on left: 18
+        on right: 17
+    markWhile2 (42)
+        on left: 19
+        on right: 17
+    cond <atributos*> (43)
+        on left: 20 21 22
+        on right: 1 11 17 20 21
+    markOR (44)
+        on left: 23
+        on right: 20
+    markAND (45)
+        on left: 24
+        on right: 21
+    operel <atributos*> (46)
+        on left: 25 26
+        on right: 22
+    expr <atributos*> (47)
+        on left: 27 28 29 30 31 32 33 34
+        on right: 25 26 27 28 29 30 33 36 37 38 39 40 41
+    declaracion (48)
+        on left: 35
+        on right: 10
+    lDims <atributos*> (49)
+        on left: 36 37
+        on right: 35 36
+    lRef <atributos*> (50)
+        on left: 38 39
+        on right: 34 38 41
+    asignacion (51)
+        on left: 40 41
+        on right: 9
+
+
+Estado 0
+
+    0 $accept: • s END
+
+    NUMERO    desplazar e ir al estado 1
+    ID        desplazar e ir al estado 2
+    '('       desplazar e ir al estado 3
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+    ARRAY     desplazar e ir al estado 8
+
+    s            ir al estado 9
+    lSentencias  ir al estado 10
+    sentencia    ir al estado 11
+    if           ir al estado 12
+    while        ir al estado 13
+    cond         ir al estado 14
+    operel       ir al estado 15
+    expr         ir al estado 16
+    declaracion  ir al estado 17
+    lDims        ir al estado 18
+    lRef         ir al estado 19
+    asignacion   ir al estado 20
+
+
+Estado 1
+
+   31 expr: NUMERO •
+
+    $default  reduce usando la regla 31 (expr)
+
+
+Estado 2
+
+   32 expr: ID •
+   39 lRef: ID • '[' expr
+   40 asignacion: ID • '=' expr
+
+    '='  desplazar e ir al estado 21
+    '['  desplazar e ir al estado 22
+
+    $default  reduce usando la regla 32 (expr)
+
+
+Estado 3
+
+   33 expr: '(' • expr ')'
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 24
+    lRef  ir al estado 25
+
+
+Estado 4
+
+   11 if: IF • '(' cond ')' markIF '{' lSentencias '}' markIF2 else
+
+    '('  desplazar e ir al estado 26
+
+
+Estado 5
+
+   17 while: WHILE • markWhile1 '(' cond ')' markWhile2 '{' lSentencias '}'
+
+    $default  reduce usando la regla 18 (markWhile1)
+
+    markWhile1  ir al estado 27
+
+
+Estado 6
+
+    7 sentencia: BREAK •
+
+    $default  reduce usando la regla 7 (sentencia)
+
+
+Estado 7
+
+    8 sentencia: CONTINUE •
+
+    $default  reduce usando la regla 8 (sentencia)
+
+
+Estado 8
+
+   37 lDims: ARRAY • ID '[' expr DOT2 expr
+
+    ID  desplazar e ir al estado 28
+
+
+Estado 9
+
+    0 $accept: s • END
+
+    END  desplazar e ir al estado 29
+
+
+Estado 10
+
+    2 s: lSentencias •
+    3 lSentencias: lSentencias • sentencia
+
+    ID        desplazar e ir al estado 30
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+    ARRAY     desplazar e ir al estado 8
+
+    $default  reduce usando la regla 2 (s)
+
+    sentencia    ir al estado 31
+    if           ir al estado 12
+    while        ir al estado 13
+    declaracion  ir al estado 17
+    lDims        ir al estado 18
+    lRef         ir al estado 32
+    asignacion   ir al estado 20
+
+
+Estado 11
+
+    4 lSentencias: sentencia •
+
+    $default  reduce usando la regla 4 (lSentencias)
+
+
+Estado 12
+
+    5 sentencia: if •
+
+    $default  reduce usando la regla 5 (sentencia)
+
+
+Estado 13
+
+    6 sentencia: while •
+
+    $default  reduce usando la regla 6 (sentencia)
+
+
+Estado 14
+
+    1 s: cond •
+   20 cond: cond • OR markOR cond
+   21     | cond • AND markAND cond
+
+    OR   desplazar e ir al estado 33
+    AND  desplazar e ir al estado 34
+
+    $default  reduce usando la regla 1 (s)
+
+
+Estado 15
+
+   22 cond: operel •
+
+    $default  reduce usando la regla 22 (cond)
+
+
+Estado 16
+
+   25 operel: expr • EQ expr
+   26       | expr • '<' expr
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    EQ     desplazar e ir al estado 37
+    '<'    desplazar e ir al estado 38
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+
+
+Estado 17
+
+   10 sentencia: declaracion •
+
+    $default  reduce usando la regla 10 (sentencia)
+
+
+Estado 18
+
+   35 declaracion: lDims • ']'
+   36 lDims: lDims • ',' expr DOT2 expr
+
+    ']'  desplazar e ir al estado 41
+    ','  desplazar e ir al estado 42
+
+
+Estado 19
+
+   34 expr: lRef • ']'
+   38 lRef: lRef • ',' expr
+   41 asignacion: lRef • ']' '=' expr
+
+    ']'  desplazar e ir al estado 43
+    ','  desplazar e ir al estado 44
+
+
+Estado 20
+
+    9 sentencia: asignacion •
+
+    $default  reduce usando la regla 9 (sentencia)
+
+
+Estado 21
+
+   40 asignacion: ID '=' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 45
+    lRef  ir al estado 25
+
+
+Estado 22
+
+   39 lRef: ID '[' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 46
+    lRef  ir al estado 25
+
+
+Estado 23
+
+   32 expr: ID •
+   39 lRef: ID • '[' expr
+
+    '['  desplazar e ir al estado 22
+
+    $default  reduce usando la regla 32 (expr)
+
+
+Estado 24
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   33     | '(' expr • ')'
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+    ')'    desplazar e ir al estado 47
+
+
+Estado 25
+
+   34 expr: lRef • ']'
+   38 lRef: lRef • ',' expr
+
+    ']'  desplazar e ir al estado 48
+    ','  desplazar e ir al estado 44
+
+
+Estado 26
+
+   11 if: IF '(' • cond ')' markIF '{' lSentencias '}' markIF2 else
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 49
+    operel  ir al estado 15
+    expr    ir al estado 16
+    lRef    ir al estado 25
+
+
+Estado 27
+
+   17 while: WHILE markWhile1 • '(' cond ')' markWhile2 '{' lSentencias '}'
+
+    '('  desplazar e ir al estado 50
+
+
+Estado 28
+
+   37 lDims: ARRAY ID • '[' expr DOT2 expr
+
+    '['  desplazar e ir al estado 51
+
+
+Estado 29
+
+    0 $accept: s END •
+
+    $default  aceptar
+
+
+Estado 30
+
+   39 lRef: ID • '[' expr
+   40 asignacion: ID • '=' expr
+
+    '='  desplazar e ir al estado 21
+    '['  desplazar e ir al estado 22
+
+
+Estado 31
+
+    3 lSentencias: lSentencias sentencia •
+
+    $default  reduce usando la regla 3 (lSentencias)
+
+
+Estado 32
+
+   38 lRef: lRef • ',' expr
+   41 asignacion: lRef • ']' '=' expr
+
+    ']'  desplazar e ir al estado 52
+    ','  desplazar e ir al estado 44
+
+
+Estado 33
+
+   20 cond: cond OR • markOR cond
+
+    $default  reduce usando la regla 23 (markOR)
+
+    markOR  ir al estado 53
+
+
+Estado 34
+
+   21 cond: cond AND • markAND cond
+
+    $default  reduce usando la regla 24 (markAND)
+
+    markAND  ir al estado 54
+
+
+Estado 35
+
+   27 expr: expr SUMA • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 55
+    lRef  ir al estado 25
+
+
+Estado 36
+
+   28 expr: expr MENOS • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 56
+    lRef  ir al estado 25
+
+
+Estado 37
+
+   25 operel: expr EQ • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 57
+    lRef  ir al estado 25
+
+
+Estado 38
+
+   26 operel: expr '<' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 58
+    lRef  ir al estado 25
+
+
+Estado 39
+
+   29 expr: expr '*' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 59
+    lRef  ir al estado 25
+
+
+Estado 40
+
+   30 expr: expr '/' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 60
+    lRef  ir al estado 25
+
+
+Estado 41
+
+   35 declaracion: lDims ']' •
+
+    $default  reduce usando la regla 35 (declaracion)
+
+
+Estado 42
+
+   36 lDims: lDims ',' • expr DOT2 expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 61
+    lRef  ir al estado 25
+
+
+Estado 43
+
+   34 expr: lRef ']' •
+   41 asignacion: lRef ']' • '=' expr
+
+    '='  desplazar e ir al estado 62
+
+    $default  reduce usando la regla 34 (expr)
+
+
+Estado 44
+
+   38 lRef: lRef ',' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 63
+    lRef  ir al estado 25
+
+
+Estado 45
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   40 asignacion: ID '=' expr •
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+
+    $default  reduce usando la regla 40 (asignacion)
+
+
+Estado 46
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   39 lRef: ID '[' expr •
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+
+    $default  reduce usando la regla 39 (lRef)
+
+
+Estado 47
+
+   33 expr: '(' expr ')' •
+
+    $default  reduce usando la regla 33 (expr)
+
+
+Estado 48
+
+   34 expr: lRef ']' •
+
+    $default  reduce usando la regla 34 (expr)
+
+
+Estado 49
+
+   11 if: IF '(' cond • ')' markIF '{' lSentencias '}' markIF2 else
+   20 cond: cond • OR markOR cond
+   21     | cond • AND markAND cond
+
+    OR   desplazar e ir al estado 33
+    AND  desplazar e ir al estado 34
+    ')'  desplazar e ir al estado 64
+
+
+Estado 50
+
+   17 while: WHILE markWhile1 '(' • cond ')' markWhile2 '{' lSentencias '}'
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 65
+    operel  ir al estado 15
+    expr    ir al estado 16
+    lRef    ir al estado 25
+
+
+Estado 51
+
+   37 lDims: ARRAY ID '[' • expr DOT2 expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 66
+    lRef  ir al estado 25
+
+
+Estado 52
+
+   41 asignacion: lRef ']' • '=' expr
+
+    '='  desplazar e ir al estado 62
+
+
+Estado 53
+
+   20 cond: cond OR markOR • cond
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 67
+    operel  ir al estado 15
+    expr    ir al estado 16
+    lRef    ir al estado 25
+
+
+Estado 54
+
+   21 cond: cond AND markAND • cond
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 68
+    operel  ir al estado 15
+    expr    ir al estado 16
+    lRef    ir al estado 25
+
+
+Estado 55
+
+   27 expr: expr • SUMA expr
+   27     | expr SUMA expr •
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+
+    '*'  desplazar e ir al estado 39
+    '/'  desplazar e ir al estado 40
+
+    $default  reduce usando la regla 27 (expr)
+
+
+Estado 56
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   28     | expr MENOS expr •
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+
+    '*'  desplazar e ir al estado 39
+    '/'  desplazar e ir al estado 40
+
+    $default  reduce usando la regla 28 (expr)
+
+
+Estado 57
+
+   25 operel: expr EQ expr •
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+
+    $default  reduce usando la regla 25 (operel)
+
+
+Estado 58
+
+   26 operel: expr '<' expr •
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+
+    $default  reduce usando la regla 26 (operel)
+
+
+Estado 59
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   29     | expr '*' expr •
+   30     | expr • '/' expr
+
+    $default  reduce usando la regla 29 (expr)
+
+
+Estado 60
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   30     | expr '/' expr •
+
+    $default  reduce usando la regla 30 (expr)
+
+
+Estado 61
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   36 lDims: lDims ',' expr • DOT2 expr
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+    DOT2   desplazar e ir al estado 69
+
+
+Estado 62
+
+   41 asignacion: lRef ']' '=' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 70
+    lRef  ir al estado 25
+
+
+Estado 63
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   38 lRef: lRef ',' expr •
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+
+    $default  reduce usando la regla 38 (lRef)
+
+
+Estado 64
+
+   11 if: IF '(' cond ')' • markIF '{' lSentencias '}' markIF2 else
+
+    $default  reduce usando la regla 12 (markIF)
+
+    markIF  ir al estado 71
+
+
+Estado 65
+
+   17 while: WHILE markWhile1 '(' cond • ')' markWhile2 '{' lSentencias '}'
+   20 cond: cond • OR markOR cond
+   21     | cond • AND markAND cond
+
+    OR   desplazar e ir al estado 33
+    AND  desplazar e ir al estado 34
+    ')'  desplazar e ir al estado 72
+
+
+Estado 66
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   37 lDims: ARRAY ID '[' expr • DOT2 expr
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+    DOT2   desplazar e ir al estado 73
+
+
+Estado 67
+
+   20 cond: cond • OR markOR cond
+   20     | cond OR markOR cond •
+   21     | cond • AND markAND cond
+
+    AND  desplazar e ir al estado 34
+
+    $default  reduce usando la regla 20 (cond)
+
+
+Estado 68
+
+   20 cond: cond • OR markOR cond
+   21     | cond • AND markAND cond
+   21     | cond AND markAND cond •
+
+    $default  reduce usando la regla 21 (cond)
+
+
+Estado 69
+
+   36 lDims: lDims ',' expr DOT2 • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 74
+    lRef  ir al estado 25
+
+
+Estado 70
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   41 asignacion: lRef ']' '=' expr •
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+
+    $default  reduce usando la regla 41 (asignacion)
+
+
+Estado 71
+
+   11 if: IF '(' cond ')' markIF • '{' lSentencias '}' markIF2 else
+
+    '{'  desplazar e ir al estado 75
+
+
+Estado 72
+
+   17 while: WHILE markWhile1 '(' cond ')' • markWhile2 '{' lSentencias '}'
+
+    $default  reduce usando la regla 19 (markWhile2)
+
+    markWhile2  ir al estado 76
+
+
+Estado 73
+
+   37 lDims: ARRAY ID '[' expr DOT2 • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 23
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 77
+    lRef  ir al estado 25
+
+
+Estado 74
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   36 lDims: lDims ',' expr DOT2 expr •
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+
+    $default  reduce usando la regla 36 (lDims)
+
+
+Estado 75
+
+   11 if: IF '(' cond ')' markIF '{' • lSentencias '}' markIF2 else
+
+    ID        desplazar e ir al estado 30
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+    ARRAY     desplazar e ir al estado 8
+
+    lSentencias  ir al estado 78
+    sentencia    ir al estado 11
+    if           ir al estado 12
+    while        ir al estado 13
+    declaracion  ir al estado 17
+    lDims        ir al estado 18
+    lRef         ir al estado 32
+    asignacion   ir al estado 20
+
+
+Estado 76
+
+   17 while: WHILE markWhile1 '(' cond ')' markWhile2 • '{' lSentencias '}'
+
+    '{'  desplazar e ir al estado 79
+
+
+Estado 77
+
+   27 expr: expr • SUMA expr
+   28     | expr • MENOS expr
+   29     | expr • '*' expr
+   30     | expr • '/' expr
+   37 lDims: ARRAY ID '[' expr DOT2 expr •
+
+    SUMA   desplazar e ir al estado 35
+    MENOS  desplazar e ir al estado 36
+    '*'    desplazar e ir al estado 39
+    '/'    desplazar e ir al estado 40
+
+    $default  reduce usando la regla 37 (lDims)
+
+
+Estado 78
+
+    3 lSentencias: lSentencias • sentencia
+   11 if: IF '(' cond ')' markIF '{' lSentencias • '}' markIF2 else
+
+    ID        desplazar e ir al estado 30
+    '}'       desplazar e ir al estado 80
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+    ARRAY     desplazar e ir al estado 8
+
+    sentencia    ir al estado 31
+    if           ir al estado 12
+    while        ir al estado 13
+    declaracion  ir al estado 17
+    lDims        ir al estado 18
+    lRef         ir al estado 32
+    asignacion   ir al estado 20
+
+
+Estado 79
+
+   17 while: WHILE markWhile1 '(' cond ')' markWhile2 '{' • lSentencias '}'
+
+    ID        desplazar e ir al estado 30
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+    ARRAY     desplazar e ir al estado 8
+
+    lSentencias  ir al estado 81
+    sentencia    ir al estado 11
+    if           ir al estado 12
+    while        ir al estado 13
+    declaracion  ir al estado 17
+    lDims        ir al estado 18
+    lRef         ir al estado 32
+    asignacion   ir al estado 20
+
+
+Estado 80
+
+   11 if: IF '(' cond ')' markIF '{' lSentencias '}' • markIF2 else
+
+    $default  reduce usando la regla 13 (markIF2)
+
+    markIF2  ir al estado 82
+
+
+Estado 81
+
+    3 lSentencias: lSentencias • sentencia
+   17 while: WHILE markWhile1 '(' cond ')' markWhile2 '{' lSentencias • '}'
+
+    ID        desplazar e ir al estado 30
+    '}'       desplazar e ir al estado 83
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+    ARRAY     desplazar e ir al estado 8
+
+    sentencia    ir al estado 31
+    if           ir al estado 12
+    while        ir al estado 13
+    declaracion  ir al estado 17
+    lDims        ir al estado 18
+    lRef         ir al estado 32
+    asignacion   ir al estado 20
+
+
+Estado 82
+
+   11 if: IF '(' cond ')' markIF '{' lSentencias '}' markIF2 • else
+
+    ELSE  desplazar e ir al estado 84
+
+    $default  reduce usando la regla 16 (else)
+
+    else  ir al estado 85
+
+
+Estado 83
+
+   17 while: WHILE markWhile1 '(' cond ')' markWhile2 '{' lSentencias '}' •
+
+    $default  reduce usando la regla 17 (while)
+
+
+Estado 84
+
+   14 else: ELSE • '{' lSentencias '}' else
+   15     | ELSE • if
+
+    '{'  desplazar e ir al estado 86
+    IF   desplazar e ir al estado 4
+
+    if  ir al estado 87
+
+
+Estado 85
+
+   11 if: IF '(' cond ')' markIF '{' lSentencias '}' markIF2 else •
+
+    $default  reduce usando la regla 11 (if)
+
+
+Estado 86
+
+   14 else: ELSE '{' • lSentencias '}' else
+
+    ID        desplazar e ir al estado 30
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+    ARRAY     desplazar e ir al estado 8
+
+    lSentencias  ir al estado 88
+    sentencia    ir al estado 11
+    if           ir al estado 12
+    while        ir al estado 13
+    declaracion  ir al estado 17
+    lDims        ir al estado 18
+    lRef         ir al estado 32
+    asignacion   ir al estado 20
+
+
+Estado 87
+
+   15 else: ELSE if •
+
+    $default  reduce usando la regla 15 (else)
+
+
+Estado 88
+
+    3 lSentencias: lSentencias • sentencia
+   14 else: ELSE '{' lSentencias • '}' else
+
+    ID        desplazar e ir al estado 30
+    '}'       desplazar e ir al estado 89
+    IF        desplazar e ir al estado 4
+    WHILE     desplazar e ir al estado 5
+    BREAK     desplazar e ir al estado 6
+    CONTINUE  desplazar e ir al estado 7
+    ARRAY     desplazar e ir al estado 8
+
+    sentencia    ir al estado 31
+    if           ir al estado 12
+    while        ir al estado 13
+    declaracion  ir al estado 17
+    lDims        ir al estado 18
+    lRef         ir al estado 32
+    asignacion   ir al estado 20
+
+
+Estado 89
+
+   14 else: ELSE '{' lSentencias '}' • else
+
+    ELSE  desplazar e ir al estado 84
+
+    $default  reduce usando la regla 16 (else)
+
+    else  ir al estado 90
+
+
+Estado 90
+
+   14 else: ELSE '{' lSentencias '}' else •
+
+    $default  reduce usando la regla 14 (else)
