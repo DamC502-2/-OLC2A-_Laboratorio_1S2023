@@ -1,0 +1,7 @@
+Function main (ByRef x As Integer, ByVal y As Integer) As Integer {
+Dim a As Integer;
+a = 1 + 1;
+y = 10;
+main(a,y);
+return main(x,a);
+}

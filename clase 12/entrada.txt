@@ -1,0 +1,20 @@
+while ( a < b ) {
+    while ( aa < bb ) {
+        continue;
+        break;
+    }
+    continue;
+    break;
+}
+
+if (x < y ){
+    while ( a < b ) {
+        continue;
+        break;
+    }
+}
+array x [1..3, 1..4, 1..2, 1..5] ;
+x[2,4,2,3] = a;
+a = x[2,4,2,3] 
+
+

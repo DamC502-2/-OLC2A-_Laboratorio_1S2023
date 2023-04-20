@@ -1,0 +1,1384 @@
+Terminales no usados en la gramática
+
+    STRING
+    '>'
+    NEG
+    PRINT
+
+
+Gramática
+
+    0 $accept: s END
+
+    1 s: cond
+    2  | lSentenciasG
+
+    3 lSentenciasG: lSentenciasG funcion
+    4             | funcion
+
+    5 lSentencias: lSentencias sentencia
+    6            | sentencia
+
+    7 sentencia: if
+    8          | while
+    9          | BREAK
+   10          | CONTINUE
+   11          | asignacion ';'
+   12          | declaracion_var ';'
+   13          | RETURN ';'
+   14          | RETURN expr ';'
+   15          | ID '(' lExprLlamada ')' ';'
+   16          | ID '(' ')' ';'
+
+   17 funcion: FUNCTION ID '(' lParams ')' tipoFuncion '{' lSentencias '}'
+   18        | FUNCTION ID '(' ')' tipoFuncion '{' lSentencias '}'
+
+   19 lParams: lParams ',' BYVAL ID AS INT
+   20        | lParams ',' BYREF ID AS INT
+   21        | BYREF ID AS INT
+   22        | BYVAL ID AS INT
+
+   23 tipoFuncion: AS INT
+   24            | AS VOID
+
+   25 declaracion_var: DIM ID AS INT
+
+   26 asignacion: ID '=' expr
+
+   27 if: IF '(' cond ')' '{' lSentencias '}' else
+
+   28 else: ELSE '{' lSentencias '}' else
+   29     | ELSE if
+   30     | ε
+
+   31 while: WHILE '(' cond ')' '{' lSentencias '}'
+
+   32 cond: cond OR cond
+   33     | cond AND cond
+   34     | operel
+
+   35 operel: expr EQ expr
+   36       | expr '<' expr
+
+   37 expr: expr SUMA expr
+   38     | expr MENOS expr
+   39     | expr '*' expr
+   40     | expr '/' expr
+   41     | NUMERO
+   42     | ID
+   43     | '(' expr ')'
+   44     | ID '(' ')'
+   45     | ID '(' lExprLlamada ')'
+
+   46 lExprLlamada: lExprLlamada ',' expr
+   47             | expr
+
+
+Terminales con las reglas donde aparecen
+
+    END (0) 0
+    '(' (40) 15 16 17 18 27 31 43 44 45
+    ')' (41) 15 16 17 18 27 31 43 44 45
+    '*' (42) 39
+    ',' (44) 19 20 46
+    '/' (47) 40
+    ';' (59) 11 12 13 14 15 16
+    '<' (60) 36
+    '=' (61) 26
+    '>' (62)
+    '{' (123) 17 18 27 28 31
+    '}' (125) 17 18 27 28 31
+    error (256)
+    NUMERO <std::string> (258) 41
+    ID <std::string> (259) 15 16 17 18 19 20 21 22 25 26 42 44 45
+    STRING <std::string> (260)
+    SUMA (261) 37
+    MENOS (262) 38
+    OR (263) 32
+    AND (264) 33
+    EQ (265) 35
+    NEG (266)
+    IF (267) 27
+    ELSE (268) 28 29
+    WHILE (269) 31
+    BREAK (270) 9
+    CONTINUE (271) 10
+    PRINT (272)
+    AS (273) 19 20 21 22 23 24 25
+    FUNCTION (274) 17 18
+    DIM (275) 25
+    RETURN (276) 13 14
+    INT <std::string> (277) 19 20 21 22 23 25
+    VOID <std::string> (278) 24
+    BYREF <std::string> (279) 20 21
+    BYVAL <std::string> (280) 19 22
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (37)
+        on left: 0
+    s <AbsExpr*> (38)
+        on left: 1 2
+        on right: 0
+    lSentenciasG <NT_LSentencias*> (39)
+        on left: 3 4
+        on right: 2 3
+    lSentencias <NT_LSentencias*> (40)
+        on left: 5 6
+        on right: 5 17 18 27 28 31
+    sentencia <AbsExpr*> (41)
+        on left: 7 8 9 10 11 12 13 14 15 16
+        on right: 5 6
+    funcion <AbsExpr*> (42)
+        on left: 17 18
+        on right: 3 4
+    lParams <NT_LParams*> (43)
+        on left: 19 20 21 22
+        on right: 17 19 20
+    tipoFuncion <std::string> (44)
+        on left: 23 24
+        on right: 17 18
+    declaracion_var <AbsExpr*> (45)
+        on left: 25
+        on right: 12
+    asignacion <AbsExpr*> (46)
+        on left: 26
+        on right: 11
+    if <AbsExpr*> (47)
+        on left: 27
+        on right: 7 29
+    else <AbsExpr*> (48)
+        on left: 28 29 30
+        on right: 27 28
+    while <AbsExpr*> (49)
+        on left: 31
+        on right: 8
+    cond <AbsExpr*> (50)
+        on left: 32 33 34
+        on right: 1 27 31 32 33
+    operel <AbsExpr*> (51)
+        on left: 35 36
+        on right: 34
+    expr <AbsExpr*> (52)
+        on left: 37 38 39 40 41 42 43 44 45
+        on right: 14 26 35 36 37 38 39 40 43 46 47
+    lExprLlamada <NT_LExprLLamada*> (53)
+        on left: 46 47
+        on right: 15 45 46
+
+
+Estado 0
+
+    0 $accept: • s END
+
+    NUMERO    desplazar e ir al estado 1
+    ID        desplazar e ir al estado 2
+    '('       desplazar e ir al estado 3
+    FUNCTION  desplazar e ir al estado 4
+
+    s             ir al estado 5
+    lSentenciasG  ir al estado 6
+    funcion       ir al estado 7
+    cond          ir al estado 8
+    operel        ir al estado 9
+    expr          ir al estado 10
+
+
+Estado 1
+
+   41 expr: NUMERO •
+
+    $default  reduce usando la regla 41 (expr)
+
+
+Estado 2
+
+   42 expr: ID •
+   44     | ID • '(' ')'
+   45     | ID • '(' lExprLlamada ')'
+
+    '('  desplazar e ir al estado 11
+
+    $default  reduce usando la regla 42 (expr)
+
+
+Estado 3
+
+   43 expr: '(' • expr ')'
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 12
+
+
+Estado 4
+
+   17 funcion: FUNCTION • ID '(' lParams ')' tipoFuncion '{' lSentencias '}'
+   18        | FUNCTION • ID '(' ')' tipoFuncion '{' lSentencias '}'
+
+    ID  desplazar e ir al estado 13
+
+
+Estado 5
+
+    0 $accept: s • END
+
+    END  desplazar e ir al estado 14
+
+
+Estado 6
+
+    2 s: lSentenciasG •
+    3 lSentenciasG: lSentenciasG • funcion
+
+    FUNCTION  desplazar e ir al estado 4
+
+    $default  reduce usando la regla 2 (s)
+
+    funcion  ir al estado 15
+
+
+Estado 7
+
+    4 lSentenciasG: funcion •
+
+    $default  reduce usando la regla 4 (lSentenciasG)
+
+
+Estado 8
+
+    1 s: cond •
+   32 cond: cond • OR cond
+   33     | cond • AND cond
+
+    OR   desplazar e ir al estado 16
+    AND  desplazar e ir al estado 17
+
+    $default  reduce usando la regla 1 (s)
+
+
+Estado 9
+
+   34 cond: operel •
+
+    $default  reduce usando la regla 34 (cond)
+
+
+Estado 10
+
+   35 operel: expr • EQ expr
+   36       | expr • '<' expr
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 18
+    MENOS  desplazar e ir al estado 19
+    EQ     desplazar e ir al estado 20
+    '<'    desplazar e ir al estado 21
+    '*'    desplazar e ir al estado 22
+    '/'    desplazar e ir al estado 23
+
+
+Estado 11
+
+   44 expr: ID '(' • ')'
+   45     | ID '(' • lExprLlamada ')'
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+    ')'     desplazar e ir al estado 24
+
+    expr          ir al estado 25
+    lExprLlamada  ir al estado 26
+
+
+Estado 12
+
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+   43     | '(' expr • ')'
+
+    SUMA   desplazar e ir al estado 18
+    MENOS  desplazar e ir al estado 19
+    '*'    desplazar e ir al estado 22
+    '/'    desplazar e ir al estado 23
+    ')'    desplazar e ir al estado 27
+
+
+Estado 13
+
+   17 funcion: FUNCTION ID • '(' lParams ')' tipoFuncion '{' lSentencias '}'
+   18        | FUNCTION ID • '(' ')' tipoFuncion '{' lSentencias '}'
+
+    '('  desplazar e ir al estado 28
+
+
+Estado 14
+
+    0 $accept: s END •
+
+    $default  aceptar
+
+
+Estado 15
+
+    3 lSentenciasG: lSentenciasG funcion •
+
+    $default  reduce usando la regla 3 (lSentenciasG)
+
+
+Estado 16
+
+   32 cond: cond OR • cond
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 29
+    operel  ir al estado 9
+    expr    ir al estado 10
+
+
+Estado 17
+
+   33 cond: cond AND • cond
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 30
+    operel  ir al estado 9
+    expr    ir al estado 10
+
+
+Estado 18
+
+   37 expr: expr SUMA • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 31
+
+
+Estado 19
+
+   38 expr: expr MENOS • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 32
+
+
+Estado 20
+
+   35 operel: expr EQ • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 33
+
+
+Estado 21
+
+   36 operel: expr '<' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 34
+
+
+Estado 22
+
+   39 expr: expr '*' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 35
+
+
+Estado 23
+
+   40 expr: expr '/' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 36
+
+
+Estado 24
+
+   44 expr: ID '(' ')' •
+
+    $default  reduce usando la regla 44 (expr)
+
+
+Estado 25
+
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+   47 lExprLlamada: expr •
+
+    SUMA   desplazar e ir al estado 18
+    MENOS  desplazar e ir al estado 19
+    '*'    desplazar e ir al estado 22
+    '/'    desplazar e ir al estado 23
+
+    $default  reduce usando la regla 47 (lExprLlamada)
+
+
+Estado 26
+
+   45 expr: ID '(' lExprLlamada • ')'
+   46 lExprLlamada: lExprLlamada • ',' expr
+
+    ')'  desplazar e ir al estado 37
+    ','  desplazar e ir al estado 38
+
+
+Estado 27
+
+   43 expr: '(' expr ')' •
+
+    $default  reduce usando la regla 43 (expr)
+
+
+Estado 28
+
+   17 funcion: FUNCTION ID '(' • lParams ')' tipoFuncion '{' lSentencias '}'
+   18        | FUNCTION ID '(' • ')' tipoFuncion '{' lSentencias '}'
+
+    ')'    desplazar e ir al estado 39
+    BYREF  desplazar e ir al estado 40
+    BYVAL  desplazar e ir al estado 41
+
+    lParams  ir al estado 42
+
+
+Estado 29
+
+   32 cond: cond • OR cond
+   32     | cond OR cond •
+   33     | cond • AND cond
+
+    AND  desplazar e ir al estado 17
+
+    $default  reduce usando la regla 32 (cond)
+
+
+Estado 30
+
+   32 cond: cond • OR cond
+   33     | cond • AND cond
+   33     | cond AND cond •
+
+    $default  reduce usando la regla 33 (cond)
+
+
+Estado 31
+
+   37 expr: expr • SUMA expr
+   37     | expr SUMA expr •
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+
+    '*'  desplazar e ir al estado 22
+    '/'  desplazar e ir al estado 23
+
+    $default  reduce usando la regla 37 (expr)
+
+
+Estado 32
+
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   38     | expr MENOS expr •
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+
+    '*'  desplazar e ir al estado 22
+    '/'  desplazar e ir al estado 23
+
+    $default  reduce usando la regla 38 (expr)
+
+
+Estado 33
+
+   35 operel: expr EQ expr •
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 18
+    MENOS  desplazar e ir al estado 19
+    '*'    desplazar e ir al estado 22
+    '/'    desplazar e ir al estado 23
+
+    $default  reduce usando la regla 35 (operel)
+
+
+Estado 34
+
+   36 operel: expr '<' expr •
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 18
+    MENOS  desplazar e ir al estado 19
+    '*'    desplazar e ir al estado 22
+    '/'    desplazar e ir al estado 23
+
+    $default  reduce usando la regla 36 (operel)
+
+
+Estado 35
+
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   39     | expr '*' expr •
+   40     | expr • '/' expr
+
+    $default  reduce usando la regla 39 (expr)
+
+
+Estado 36
+
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+   40     | expr '/' expr •
+
+    $default  reduce usando la regla 40 (expr)
+
+
+Estado 37
+
+   45 expr: ID '(' lExprLlamada ')' •
+
+    $default  reduce usando la regla 45 (expr)
+
+
+Estado 38
+
+   46 lExprLlamada: lExprLlamada ',' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 43
+
+
+Estado 39
+
+   18 funcion: FUNCTION ID '(' ')' • tipoFuncion '{' lSentencias '}'
+
+    AS  desplazar e ir al estado 44
+
+    tipoFuncion  ir al estado 45
+
+
+Estado 40
+
+   21 lParams: BYREF • ID AS INT
+
+    ID  desplazar e ir al estado 46
+
+
+Estado 41
+
+   22 lParams: BYVAL • ID AS INT
+
+    ID  desplazar e ir al estado 47
+
+
+Estado 42
+
+   17 funcion: FUNCTION ID '(' lParams • ')' tipoFuncion '{' lSentencias '}'
+   19 lParams: lParams • ',' BYVAL ID AS INT
+   20        | lParams • ',' BYREF ID AS INT
+
+    ')'  desplazar e ir al estado 48
+    ','  desplazar e ir al estado 49
+
+
+Estado 43
+
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+   46 lExprLlamada: lExprLlamada ',' expr •
+
+    SUMA   desplazar e ir al estado 18
+    MENOS  desplazar e ir al estado 19
+    '*'    desplazar e ir al estado 22
+    '/'    desplazar e ir al estado 23
+
+    $default  reduce usando la regla 46 (lExprLlamada)
+
+
+Estado 44
+
+   23 tipoFuncion: AS • INT
+   24            | AS • VOID
+
+    INT   desplazar e ir al estado 50
+    VOID  desplazar e ir al estado 51
+
+
+Estado 45
+
+   18 funcion: FUNCTION ID '(' ')' tipoFuncion • '{' lSentencias '}'
+
+    '{'  desplazar e ir al estado 52
+
+
+Estado 46
+
+   21 lParams: BYREF ID • AS INT
+
+    AS  desplazar e ir al estado 53
+
+
+Estado 47
+
+   22 lParams: BYVAL ID • AS INT
+
+    AS  desplazar e ir al estado 54
+
+
+Estado 48
+
+   17 funcion: FUNCTION ID '(' lParams ')' • tipoFuncion '{' lSentencias '}'
+
+    AS  desplazar e ir al estado 44
+
+    tipoFuncion  ir al estado 55
+
+
+Estado 49
+
+   19 lParams: lParams ',' • BYVAL ID AS INT
+   20        | lParams ',' • BYREF ID AS INT
+
+    BYREF  desplazar e ir al estado 56
+    BYVAL  desplazar e ir al estado 57
+
+
+Estado 50
+
+   23 tipoFuncion: AS INT •
+
+    $default  reduce usando la regla 23 (tipoFuncion)
+
+
+Estado 51
+
+   24 tipoFuncion: AS VOID •
+
+    $default  reduce usando la regla 24 (tipoFuncion)
+
+
+Estado 52
+
+   18 funcion: FUNCTION ID '(' ')' tipoFuncion '{' • lSentencias '}'
+
+    ID        desplazar e ir al estado 58
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    lSentencias      ir al estado 65
+    sentencia        ir al estado 66
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 53
+
+   21 lParams: BYREF ID AS • INT
+
+    INT  desplazar e ir al estado 71
+
+
+Estado 54
+
+   22 lParams: BYVAL ID AS • INT
+
+    INT  desplazar e ir al estado 72
+
+
+Estado 55
+
+   17 funcion: FUNCTION ID '(' lParams ')' tipoFuncion • '{' lSentencias '}'
+
+    '{'  desplazar e ir al estado 73
+
+
+Estado 56
+
+   20 lParams: lParams ',' BYREF • ID AS INT
+
+    ID  desplazar e ir al estado 74
+
+
+Estado 57
+
+   19 lParams: lParams ',' BYVAL • ID AS INT
+
+    ID  desplazar e ir al estado 75
+
+
+Estado 58
+
+   15 sentencia: ID • '(' lExprLlamada ')' ';'
+   16          | ID • '(' ')' ';'
+   26 asignacion: ID • '=' expr
+
+    '('  desplazar e ir al estado 76
+    '='  desplazar e ir al estado 77
+
+
+Estado 59
+
+   27 if: IF • '(' cond ')' '{' lSentencias '}' else
+
+    '('  desplazar e ir al estado 78
+
+
+Estado 60
+
+   31 while: WHILE • '(' cond ')' '{' lSentencias '}'
+
+    '('  desplazar e ir al estado 79
+
+
+Estado 61
+
+    9 sentencia: BREAK •
+
+    $default  reduce usando la regla 9 (sentencia)
+
+
+Estado 62
+
+   10 sentencia: CONTINUE •
+
+    $default  reduce usando la regla 10 (sentencia)
+
+
+Estado 63
+
+   25 declaracion_var: DIM • ID AS INT
+
+    ID  desplazar e ir al estado 80
+
+
+Estado 64
+
+   13 sentencia: RETURN • ';'
+   14          | RETURN • expr ';'
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    ';'     desplazar e ir al estado 81
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 82
+
+
+Estado 65
+
+    5 lSentencias: lSentencias • sentencia
+   18 funcion: FUNCTION ID '(' ')' tipoFuncion '{' lSentencias • '}'
+
+    ID        desplazar e ir al estado 58
+    '}'       desplazar e ir al estado 83
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    sentencia        ir al estado 84
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 66
+
+    6 lSentencias: sentencia •
+
+    $default  reduce usando la regla 6 (lSentencias)
+
+
+Estado 67
+
+   12 sentencia: declaracion_var • ';'
+
+    ';'  desplazar e ir al estado 85
+
+
+Estado 68
+
+   11 sentencia: asignacion • ';'
+
+    ';'  desplazar e ir al estado 86
+
+
+Estado 69
+
+    7 sentencia: if •
+
+    $default  reduce usando la regla 7 (sentencia)
+
+
+Estado 70
+
+    8 sentencia: while •
+
+    $default  reduce usando la regla 8 (sentencia)
+
+
+Estado 71
+
+   21 lParams: BYREF ID AS INT •
+
+    $default  reduce usando la regla 21 (lParams)
+
+
+Estado 72
+
+   22 lParams: BYVAL ID AS INT •
+
+    $default  reduce usando la regla 22 (lParams)
+
+
+Estado 73
+
+   17 funcion: FUNCTION ID '(' lParams ')' tipoFuncion '{' • lSentencias '}'
+
+    ID        desplazar e ir al estado 58
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    lSentencias      ir al estado 87
+    sentencia        ir al estado 66
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 74
+
+   20 lParams: lParams ',' BYREF ID • AS INT
+
+    AS  desplazar e ir al estado 88
+
+
+Estado 75
+
+   19 lParams: lParams ',' BYVAL ID • AS INT
+
+    AS  desplazar e ir al estado 89
+
+
+Estado 76
+
+   15 sentencia: ID '(' • lExprLlamada ')' ';'
+   16          | ID '(' • ')' ';'
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+    ')'     desplazar e ir al estado 90
+
+    expr          ir al estado 25
+    lExprLlamada  ir al estado 91
+
+
+Estado 77
+
+   26 asignacion: ID '=' • expr
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    expr  ir al estado 92
+
+
+Estado 78
+
+   27 if: IF '(' • cond ')' '{' lSentencias '}' else
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 93
+    operel  ir al estado 9
+    expr    ir al estado 10
+
+
+Estado 79
+
+   31 while: WHILE '(' • cond ')' '{' lSentencias '}'
+
+    NUMERO  desplazar e ir al estado 1
+    ID      desplazar e ir al estado 2
+    '('     desplazar e ir al estado 3
+
+    cond    ir al estado 94
+    operel  ir al estado 9
+    expr    ir al estado 10
+
+
+Estado 80
+
+   25 declaracion_var: DIM ID • AS INT
+
+    AS  desplazar e ir al estado 95
+
+
+Estado 81
+
+   13 sentencia: RETURN ';' •
+
+    $default  reduce usando la regla 13 (sentencia)
+
+
+Estado 82
+
+   14 sentencia: RETURN expr • ';'
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 18
+    MENOS  desplazar e ir al estado 19
+    ';'    desplazar e ir al estado 96
+    '*'    desplazar e ir al estado 22
+    '/'    desplazar e ir al estado 23
+
+
+Estado 83
+
+   18 funcion: FUNCTION ID '(' ')' tipoFuncion '{' lSentencias '}' •
+
+    $default  reduce usando la regla 18 (funcion)
+
+
+Estado 84
+
+    5 lSentencias: lSentencias sentencia •
+
+    $default  reduce usando la regla 5 (lSentencias)
+
+
+Estado 85
+
+   12 sentencia: declaracion_var ';' •
+
+    $default  reduce usando la regla 12 (sentencia)
+
+
+Estado 86
+
+   11 sentencia: asignacion ';' •
+
+    $default  reduce usando la regla 11 (sentencia)
+
+
+Estado 87
+
+    5 lSentencias: lSentencias • sentencia
+   17 funcion: FUNCTION ID '(' lParams ')' tipoFuncion '{' lSentencias • '}'
+
+    ID        desplazar e ir al estado 58
+    '}'       desplazar e ir al estado 97
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    sentencia        ir al estado 84
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 88
+
+   20 lParams: lParams ',' BYREF ID AS • INT
+
+    INT  desplazar e ir al estado 98
+
+
+Estado 89
+
+   19 lParams: lParams ',' BYVAL ID AS • INT
+
+    INT  desplazar e ir al estado 99
+
+
+Estado 90
+
+   16 sentencia: ID '(' ')' • ';'
+
+    ';'  desplazar e ir al estado 100
+
+
+Estado 91
+
+   15 sentencia: ID '(' lExprLlamada • ')' ';'
+   46 lExprLlamada: lExprLlamada • ',' expr
+
+    ')'  desplazar e ir al estado 101
+    ','  desplazar e ir al estado 38
+
+
+Estado 92
+
+   26 asignacion: ID '=' expr •
+   37 expr: expr • SUMA expr
+   38     | expr • MENOS expr
+   39     | expr • '*' expr
+   40     | expr • '/' expr
+
+    SUMA   desplazar e ir al estado 18
+    MENOS  desplazar e ir al estado 19
+    '*'    desplazar e ir al estado 22
+    '/'    desplazar e ir al estado 23
+
+    $default  reduce usando la regla 26 (asignacion)
+
+
+Estado 93
+
+   27 if: IF '(' cond • ')' '{' lSentencias '}' else
+   32 cond: cond • OR cond
+   33     | cond • AND cond
+
+    OR   desplazar e ir al estado 16
+    AND  desplazar e ir al estado 17
+    ')'  desplazar e ir al estado 102
+
+
+Estado 94
+
+   31 while: WHILE '(' cond • ')' '{' lSentencias '}'
+   32 cond: cond • OR cond
+   33     | cond • AND cond
+
+    OR   desplazar e ir al estado 16
+    AND  desplazar e ir al estado 17
+    ')'  desplazar e ir al estado 103
+
+
+Estado 95
+
+   25 declaracion_var: DIM ID AS • INT
+
+    INT  desplazar e ir al estado 104
+
+
+Estado 96
+
+   14 sentencia: RETURN expr ';' •
+
+    $default  reduce usando la regla 14 (sentencia)
+
+
+Estado 97
+
+   17 funcion: FUNCTION ID '(' lParams ')' tipoFuncion '{' lSentencias '}' •
+
+    $default  reduce usando la regla 17 (funcion)
+
+
+Estado 98
+
+   20 lParams: lParams ',' BYREF ID AS INT •
+
+    $default  reduce usando la regla 20 (lParams)
+
+
+Estado 99
+
+   19 lParams: lParams ',' BYVAL ID AS INT •
+
+    $default  reduce usando la regla 19 (lParams)
+
+
+Estado 100
+
+   16 sentencia: ID '(' ')' ';' •
+
+    $default  reduce usando la regla 16 (sentencia)
+
+
+Estado 101
+
+   15 sentencia: ID '(' lExprLlamada ')' • ';'
+
+    ';'  desplazar e ir al estado 105
+
+
+Estado 102
+
+   27 if: IF '(' cond ')' • '{' lSentencias '}' else
+
+    '{'  desplazar e ir al estado 106
+
+
+Estado 103
+
+   31 while: WHILE '(' cond ')' • '{' lSentencias '}'
+
+    '{'  desplazar e ir al estado 107
+
+
+Estado 104
+
+   25 declaracion_var: DIM ID AS INT •
+
+    $default  reduce usando la regla 25 (declaracion_var)
+
+
+Estado 105
+
+   15 sentencia: ID '(' lExprLlamada ')' ';' •
+
+    $default  reduce usando la regla 15 (sentencia)
+
+
+Estado 106
+
+   27 if: IF '(' cond ')' '{' • lSentencias '}' else
+
+    ID        desplazar e ir al estado 58
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    lSentencias      ir al estado 108
+    sentencia        ir al estado 66
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 107
+
+   31 while: WHILE '(' cond ')' '{' • lSentencias '}'
+
+    ID        desplazar e ir al estado 58
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    lSentencias      ir al estado 109
+    sentencia        ir al estado 66
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 108
+
+    5 lSentencias: lSentencias • sentencia
+   27 if: IF '(' cond ')' '{' lSentencias • '}' else
+
+    ID        desplazar e ir al estado 58
+    '}'       desplazar e ir al estado 110
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    sentencia        ir al estado 84
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 109
+
+    5 lSentencias: lSentencias • sentencia
+   31 while: WHILE '(' cond ')' '{' lSentencias • '}'
+
+    ID        desplazar e ir al estado 58
+    '}'       desplazar e ir al estado 111
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    sentencia        ir al estado 84
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 110
+
+   27 if: IF '(' cond ')' '{' lSentencias '}' • else
+
+    ELSE  desplazar e ir al estado 112
+
+    $default  reduce usando la regla 30 (else)
+
+    else  ir al estado 113
+
+
+Estado 111
+
+   31 while: WHILE '(' cond ')' '{' lSentencias '}' •
+
+    $default  reduce usando la regla 31 (while)
+
+
+Estado 112
+
+   28 else: ELSE • '{' lSentencias '}' else
+   29     | ELSE • if
+
+    '{'  desplazar e ir al estado 114
+    IF   desplazar e ir al estado 59
+
+    if  ir al estado 115
+
+
+Estado 113
+
+   27 if: IF '(' cond ')' '{' lSentencias '}' else •
+
+    $default  reduce usando la regla 27 (if)
+
+
+Estado 114
+
+   28 else: ELSE '{' • lSentencias '}' else
+
+    ID        desplazar e ir al estado 58
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    lSentencias      ir al estado 116
+    sentencia        ir al estado 66
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 115
+
+   29 else: ELSE if •
+
+    $default  reduce usando la regla 29 (else)
+
+
+Estado 116
+
+    5 lSentencias: lSentencias • sentencia
+   28 else: ELSE '{' lSentencias • '}' else
+
+    ID        desplazar e ir al estado 58
+    '}'       desplazar e ir al estado 117
+    IF        desplazar e ir al estado 59
+    WHILE     desplazar e ir al estado 60
+    BREAK     desplazar e ir al estado 61
+    CONTINUE  desplazar e ir al estado 62
+    DIM       desplazar e ir al estado 63
+    RETURN    desplazar e ir al estado 64
+
+    sentencia        ir al estado 84
+    declaracion_var  ir al estado 67
+    asignacion       ir al estado 68
+    if               ir al estado 69
+    while            ir al estado 70
+
+
+Estado 117
+
+   28 else: ELSE '{' lSentencias '}' • else
+
+    ELSE  desplazar e ir al estado 112
+
+    $default  reduce usando la regla 30 (else)
+
+    else  ir al estado 118
+
+
+Estado 118
+
+   28 else: ELSE '{' lSentencias '}' else •
+
+    $default  reduce usando la regla 28 (else)
